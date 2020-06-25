@@ -25,6 +25,9 @@ async def on_ready():
 
 @client.command(name='help')
 async def help(ctx):
+  """
+  .help command that shows how to use the bot and available commands
+  """
   embed=discord.Embed(title="Help", description="How to use the bot...")
   embed.add_field(name="Commands", value=".help\n.lookup", inline=False)
   embed.add_field(name=".help", value="How to use the bot", inline=False)
@@ -35,6 +38,29 @@ async def help(ctx):
 
 @client.command(name='lookup')
 async def lookup(ctx, arg1, arg2, arg3, arg4):
+  """
+  Attributes
+  regions : dict
+    valid regions that user may input, using simpler terms to grab actual key value 
+  region : str
+    storing argument 1 into region to make request to url 
+  username : str
+    storing argument 2 into username to make request to url 
+  champion : str
+    storing argument 3 into champion to make request to url 
+  enemy_champion : string
+    storing argument 4 into champion to make request to url 
+  url : str
+    a formatted string containing the arguments to make a request to the proxy rest api containing matches info returned from SpoofHelper
+  response : json
+    returns the json response from the rest api url
+  difference : int
+    calculating how long ago between now and the time the match was created
+  days : int
+    storing the difference into days
+  ago : str
+    formatted string saying how long ago the game was created, rounds to days/months/years
+  """
   regions = {"br": "br1", "eun":"eun1", "euw":"euw1", "jp":"jp1", "kr":"kr", "la1":"la1", "la2":"la2", "na":"na1", "oc":"oc1", "ru":"ru", "tr":"tr1"}
   region = regions.get(arg1)
   username = arg2.capitalize()
@@ -103,6 +129,14 @@ async def lookup(ctx, arg1, arg2, arg3, arg4):
 
 @client.event
 async def on_command_error(ctx, error):
+  """
+  checking error handling
+  - Missing Required Argument
+
+ TODO:
+  - check valid user input to see if SpoofHelper returns any errors
+  - check if any games even exist, if none exist, let the user know
+  """
   if isinstance(error, commands.MissingRequiredArgument):
     await ctx.send('Please pass in all required arguments. Example: .na')
 client.run(TOKEN)
