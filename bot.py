@@ -69,15 +69,15 @@ async def lookup(ctx, arg1, arg2, arg3, arg4):
 
     champion_spells = f"{response[match_id][champion]['spell1']}, {response[match_id][champion]['spell2']}"
     enemy_champion_spells = f"{response[match_id][enemy_champion]['spell1']}, {response[match_id][enemy_champion]['spell2']}"
-
+    
     if days / 30.4167 < 1:
       ago = str(days) + ' days ago'
     if days / 30.4167 > 1 and days / 30.4167 < 11.90:
       months = math.floor(days / 30.4167)
       ago = str(months) + ' months ago' 
     if days / 30.4167 > 11.90:
-      years = math.floor(days / 30.4167)
-      ago = str(years) + ' years ago'
+      years = math.floor((days / 30.4167) / 12)
+      ago = str(years) + ' year(s) ago'
 
     embed = discord.Embed (
     title = ago,
