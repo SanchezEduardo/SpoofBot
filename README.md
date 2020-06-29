@@ -1,5 +1,5 @@
 # SpoofBot
-Simplistic Discord bot that filters a League of Legends player's games based on a champion match up.\
+Simplistic Discord bot that filters a League of Legends player's games based on a champion match up. 
 This bot was built on [SpoofHelper](https://github.com/SanchezEduardo/SpoofHelper).
 
 ![Example Run](https://i.imgur.com/9GT23sE.png)
@@ -16,3 +16,10 @@ This bot was built on [SpoofHelper](https://github.com/SanchezEduardo/SpoofHelpe
 # Features
 * Rate Limiter for Riot API
 * Caching for quicker and more efficient response times
+
+# Usage
+```
+pip3 install -r requirements.txt
+# then ...
+```
+
