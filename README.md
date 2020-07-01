@@ -1,6 +1,7 @@
 # SpoofBot
 Simplistic Discord bot that filters a League of Legends player's games based on a champion match up. 
 This bot was built on [SpoofHelper](https://github.com/SanchezEduardo/SpoofHelper).
+
 ![Example Run](https://i.imgur.com/NcHDc4V.png)
 # Game Description
 * Hyperlink that redirects to Riot's match history page **user must be signed into the League site*
