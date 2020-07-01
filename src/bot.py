@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 
+
 import os
 import requests
 import discord
@@ -10,13 +11,12 @@ from discord.ext import commands
 from datetime import datetime, timedelta
 from discord.utils import get
 
+
 load_dotenv()
 TOKEN = os.getenv('DISCORD_TOKEN')
 GUILD = os.getenv('DISCORD_GUILD')
-
 client = commands.Bot(command_prefix='.', help_command=None)
 
-# http://127.0.0.1:5000/na1/username=noodlz&champion=kindred&enemy_champion=ezreal
 
 @client.event
 async def on_ready():
@@ -25,6 +25,7 @@ async def on_ready():
     print(f'{client.user} is connected to the following servers')
     for x, guild in enumerate(client.guilds, 1):
       print(f'{x}. {guild}, {guild.id}')
+
 
 @client.command(name='help')
 async def help(ctx):
@@ -38,6 +39,7 @@ async def help(ctx):
   embed.add_field(name="Regions", value="br, eun, euw, jp, kr, la1, la2, na, oc, ru, tr", inline=False)
   embed.add_field(name="Example Input", value=".lookup na noodlz kindred ezreal", inline=False)
   await ctx.send(embed=embed)
+
 
 @client.command(pass_context=True)
 async def lookup(ctx, arg1, arg2, arg3, arg4):
@@ -85,18 +87,22 @@ async def lookup(ctx, arg1, arg2, arg3, arg4):
     server = servers.get(region)
     game_id = response[match_id]['gameId']
     game_version = response[match_id]['gameVersion']
+    # formatted url link that will be used to redirect users to Riot's match history page
     url2 = f'https://matchhistory.{server}.leagueoflegends.com/en/#match-details/{region.upper()}/{game_id}?tab=overview'
 
     difference = now - date
     days = difference.days
     ago = ''
 
+    # storing responses for matchid -> champion in another variable to shorten length of lines
     response_champion = response[match_id][champion]
     response_enemy_champion = response[match_id][enemy_champion]
 
+    # storing responses for username in another variable to shorten length of lines
     username = response_champion['username']
     enemy_username = response_enemy_champion['username']
 
+    # storing json response values into a formatted string to use later in the embed message
     champion_kda = f"{response_champion['kills']}/{response_champion['deaths']}/{response_champion['assists']}"
     enemy_champion_kda = f"{response_enemy_champion['kills']}/{response_enemy_champion['deaths']}/{response_champion['assists']}"
 
@@ -112,8 +118,11 @@ async def lookup(ctx, arg1, arg2, arg3, arg4):
     champion_spells = f"{response_champion['spell1']}, {response_champion['spell2']}"
     enemy_champion_spells = f"{response_enemy_champion['spell1']}, {response_enemy_champion['spell2']}"
     
+    # splitting gameVersion to make it more use friendly and dispaying as patch with major.minor
     game_version_split = game_version.split('.')
     patch = f'{game_version_split[0]}.{game_version_split[1]}'
+
+    # formatting ago string which displays how long ago the game was played
     if days / 30.4167 < 1:
       ago = str(days) + ' days ago'
     if days / 30.4167 > 1 and days / 30.4167 < 11.90:
@@ -122,7 +131,8 @@ async def lookup(ctx, arg1, arg2, arg3, arg4):
     if days / 30.4167 > 11.90:
       years = math.floor((days / 30.4167) / 12)
       ago = str(years) + ' year(s) ago'
-
+    
+    # creating discord embed message with the details for the game
     embed = discord.Embed (
     title = ago,
     url=url2,
@@ -143,9 +153,6 @@ async def lookup(ctx, arg1, arg2, arg3, arg4):
     embed.add_field(name="Runes", value=enemy_champion_runes, inline=True)
     embed.add_field(name="Rune Perks", value=enemy_champion_perks, inline=True)
     await ctx.send(embed=embed)
-    print(page)
-
-  # creating page listing with forwards and backwards functionality
 
 
 @client.event
@@ -153,10 +160,6 @@ async def on_command_error(ctx, error):
   """
   checking error handling
   - Missing Required Argument
-
- TODO:
-  - check valid user input to see if SpoofHelper returns any errors
-  - check if any games even exist, if none exist, let the user know
   """
   if isinstance(error, commands.MissingRequiredArgument):
     await ctx.send('Please pass in all required arguments. Example: .na')
