@@ -43,6 +43,6 @@ SpoofBot is an easy to use discord bot built upon endpoints to the Riot Api and 
 When looking up a summoner for the first time, it may take roughly 30-40 seconds before displaying the information. Caching is helpful for saving the past 100 games for a certain champion because then the program only has to check for where the champions exist in the same match. Response times are almost instant when the cache for a certain lookup already exists. 
 
 # TODO
-*  Update argument to the cache
+* Update argument to the cache
     * In the rare scenario that a player has played an immense amount of games in a short duration, the cache might need to be updated. The cache at the moment is set to 1 day.
-
+* Verify that the champions are being played in the same lane, not just in existing on opposite teams. For example, blue side lucian in mid lane vs red side ezreal in bot lane.
